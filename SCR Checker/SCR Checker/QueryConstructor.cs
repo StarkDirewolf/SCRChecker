@@ -107,7 +107,7 @@ JOIN dbo.PatientNote N ON V.PatientId = N.PatientId ";
                 switch (condition.Key)
                 {
                     case Condition.DATE:
-                        str = FILTER_DATE + condition.Value;
+                        str = FILTER_DATE + "'" + condition.Value + "'";
                         break;
                 }
                 conditionList.RemoveAt(0);
