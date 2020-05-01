@@ -23,13 +23,16 @@ JOIN PackSearchView Pa ON P.PackCodeId = Pa.PackCodeId";
         // Patient second name third
         // Patient notes fourth
         private const string PATIENTS_WITH_NOTES_DISPENSED_TO = @"
-SELECT " 
+SELECT V.AddedDate, P.GivenName, P.Surname, N.Note 
+FROM PMR.PrescriptionCollectionSummaryView V 
+JOIN dbo.PatientLiteView P ON V.PatientId = P.PatientId 
+JOIN dbo.PatientNote N ON V.PatientId = N.PatientId ";
 
         private const string FILTER = " WHERE ";
 
         private const string FILTER_DATE = "CONVERT(VARCHAR(10), V.AddedDate, 111) = ";
 
-        private const string DATE_FORMAT = "'yyyy/MM/dd'";
+        private const string DATE_FORMAT = "yyyy/MM/dd";
 
         private const string FILTER_AND = " AND ";
 
@@ -42,7 +45,8 @@ SELECT "
             /// <summary>
             /// Grabs all items dispensed, selecting DrugDescription, Quantity, Prescription, Description, and UnitsPerPack
             /// </summary>
-            DISPENSED
+            DISPENSED,
+            PATIENTS_WITH_NOTES_DISPENSED_TO
         }
 
         private enum Condition
@@ -129,6 +133,9 @@ SELECT "
                     str = DISPENSED;
                     break;
 
+                case QueryType.PATIENTS_WITH_NOTES_DISPENSED_TO:
+                    str = PATIENTS_WITH_NOTES_DISPENSED_TO;
+                    break;
             }
 
             if (conditions.Count > 0)

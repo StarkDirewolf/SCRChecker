@@ -12,7 +12,7 @@ namespace SCR_Checker
 {
     class SpreadsheetHandler
     {
-        private const string FILE_PATH = @"C:\Users\roboy\Desktop\simple.ods";
+        private const string FILE_PATH = @"C:\Users\Careway LINK\Desktop\simple.ods";
         private SpreadsheetDocument doc;
         private Table table;
         private int activeRow = 0;
