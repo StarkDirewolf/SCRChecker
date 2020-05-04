@@ -30,9 +30,7 @@ namespace SCR_Checker
             startButton.Visible = false;
             progressBar1.Visible = true;
 
-            IWebDriver driver = new InternetExplorerDriver(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\Driver");
-            SCR scr = new SCR(driver);
-            MasterProcessor processor = new MasterProcessor(scr);
+            MasterProcessor processor = new MasterProcessor();
 
             processor.Start(fromDateTimePicker1.Value, toDateTimePicker2.Value, progressBar1);
         }

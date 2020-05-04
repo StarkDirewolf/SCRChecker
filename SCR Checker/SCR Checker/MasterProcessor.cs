@@ -1,14 +1,19 @@
-﻿using SCR_Checker;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.IE;
+using SCR_Checker;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 
 public class MasterProcessor
 {
-	readonly SCR scr;
-	public MasterProcessor(SCR scr)
+	SCR scr;
+
+	public MasterProcessor()
 	{
-		this.scr = scr;
+		IWebDriver driver = new InternetExplorerDriver(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\Driver");
+		scr = new SCR(driver);
 	}
 
 	public void Start(DateTime fromDate, DateTime toDate, ProgressBar progressBar)
