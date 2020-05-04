@@ -14,7 +14,7 @@ public class SCR
 
         // Open up the correct page
         driver.Navigate().GoToUrl("https://portal2.national.ncrs.nhs.uk/summarycarerecord/");
-        Thread.Sleep(4000);
+        Thread.Sleep(10000);
 
         // If it attempts to restore a previous search, go back to the main page
         IWebElement nhsNumberField = driver.FindElement(By.Name("nhsNumber"));
@@ -67,12 +67,13 @@ public class SCR
                 flags.Add(AT_RISK);
             }
             IWebElement okButton = driver.FindElement(By.Name("covidModalOk"));
+            okButton.Click();
         }
 
         if (flags.Count == 0) flags.Add(NONE);
 
         // This may break as the name was guessed
-        driver.FindElement(By.Name("findPatient")).Click();
+        driver.FindElement(By.Id("BasicSearch")).Click();
         Thread.Sleep(2000);
 
         return flags;

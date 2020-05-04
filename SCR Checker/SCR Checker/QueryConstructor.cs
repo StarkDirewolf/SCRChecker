@@ -23,7 +23,7 @@ JOIN PackSearchView Pa ON P.PackCodeId = Pa.PackCodeId";
         // Patient second name third
         // Patient notes fourth
         private const string PATIENTS_WITH_NOTES_DISPENSED_TO = @"
-SELECT V.AddedDate, P.GivenName, P.Surname, N.Note 
+SELECT P.NhsNumber, P.GivenName, P.Surname, N.Note 
 FROM PMR.PrescriptionCollectionSummaryView V 
 JOIN dbo.PatientLiteView P ON V.PatientId = P.PatientId 
 JOIN dbo.PatientNote N ON V.PatientId = N.PatientId ";

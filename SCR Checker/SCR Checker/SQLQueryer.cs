@@ -22,24 +22,26 @@ namespace SCR_Checker
             {
                 connection.Open();
 
-                for (DateTime day = fromDay; (toDay.Date - fromDay.Date).Days >= 0; day.AddDays(1))
+                for (DateTime day = fromDay; (toDay.Date - day.Date).Days >= 0; day = day.AddDays(1))
                 {
                     query.SpecificDay(day);
                     SqlCommand command = new SqlCommand(query.ToString(), connection);
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    while (reader.Read())
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        // NHS number first
-                        // Patient first name second
-                        // Patient second name third
-                        // Patient notes fourth
-                        string nhsNum = reader[0].ToString();
-                        if (!nhsNumNameLookup.ContainsKey(nhsNum))
+
+                        while (reader.Read())
                         {
-                            if (reader[3].ToString().ToLower().Contains("deliver"))
+                            // NHS number first
+                            // Patient first name second
+                            // Patient second name third
+                            // Patient notes fourth
+                            string nhsNum = reader[0].ToString();
+                            if (!nhsNumNameLookup.ContainsKey(nhsNum))
                             {
-                                nhsNumNameLookup.Add(nhsNum, reader[2] + ", " + reader[1]);
+                                if (reader[3].ToString().ToLower().Contains("deliver"))
+                                {
+                                    nhsNumNameLookup.Add(nhsNum, reader[2] + ", " + reader[1]);
+                                }
                             }
                         }
                     }
