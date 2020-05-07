@@ -40,6 +40,8 @@ JOIN dbo.PatientNote N ON V.PatientId = N.PatientId ";
 
         private List<KeyValuePair<Condition, string>> conditions = new List<KeyValuePair<Condition, string>>();
 
+        private string sort;
+
         public enum QueryType
         {
             /// <summary>
@@ -86,6 +88,12 @@ JOIN dbo.PatientNote N ON V.PatientId = N.PatientId ";
                 var condition = conditions.Find(x => x.Key == cond);
                 conditions.Remove(condition);
             }
+        }
+
+        // Temporary hardcode
+        public void SortBy()
+        {
+            sort = "ORDER BY P.Surname";
         }
 
         /// <summary>
@@ -141,6 +149,11 @@ JOIN dbo.PatientNote N ON V.PatientId = N.PatientId ";
             if (conditions.Count > 0)
             {
                 str = str + FILTER + ConditionsStringBuilder(conditions);
+            }
+
+            if(sort != null)
+            {
+                str = str + sort;
             }
 
             return str;

@@ -25,6 +25,7 @@ namespace SCR_Checker
                 for (DateTime day = fromDay; (toDay.Date - day.Date).Days >= 0; day = day.AddDays(1))
                 {
                     query.SpecificDay(day);
+                    query.SortBy();
                     SqlCommand command = new SqlCommand(query.ToString(), connection);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
