@@ -2,6 +2,7 @@
 using OpenQA.Selenium.IE;
 using SCR_Checker;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
@@ -27,26 +28,49 @@ public class MasterProcessor
 
 		SpreadsheetHandler doc = new SpreadsheetHandler();
 
-		foreach (KeyValuePair<string, string> entry in nhsNumPatientName)
+		bool dontStop = true;
+		int attempt = 0;
+		int maxAttempts = 3;
+		IEnumerator<KeyValuePair<string, string>> e = nhsNumPatientName.GetEnumerator();
+		e.MoveNext();
+		while (dontStop)
 		{
+			KeyValuePair<string, string> entry = e.Current;
+
 			List<string> flags = new List<string>();
 			try
 			{
 				flags = scr.GetFlags(entry.Key);
 			}
-			catch
+			catch (Exception ex)
 			{
-				flags.Add("ERROR - please look up manually");
+				Console.WriteLine(ex.Message);
+				attempt += 1;
+				if (attempt == maxAttempts)
+				{
+					flags.Add("ERROR - please look up manually");
+					attempt = 0;
+				}
+				
 			}
 
-			List<string> row = new List<string>();
-			row.Add(entry.Value);
-			row.Add(entry.Key);
-			row.AddRange(flags);
+			if (flags.Count > 0)
+			{
+				List<string> row = new List<string>();
+				row.Add(entry.Value);
+				row.Add(entry.Key);
+				row.AddRange(flags);
 
-			doc.AddRow(row);
+				doc.AddRow(row);
 
-			progressBar.PerformStep();
+				progressBar.PerformStep();
+
+				if (!e.MoveNext())
+				{
+					dontStop = false;
+				}
+			}
+
 		}
 
 		doc.Save();

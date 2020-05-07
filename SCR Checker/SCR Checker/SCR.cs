@@ -1,4 +1,6 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -62,16 +64,12 @@ public class SCR
     {
         List<string> flags = new List<string>();
 
-        IReadOnlyCollection<IWebElement> nhsNumElem = GetElements(By.Id("keyDetailsNHSNumber"));
-        if (nhsNumElem.Count == 0)
-        {
-            string noSpaceNHS = Regex.Replace(nhsNumElem.First().Text, @"\s", "");
-            if (!noSpaceNHS.Equals(nhsNum))
-            {
-                flags.Add(PAGE_DIDNT_LOAD);
-                return flags;
-            }
-        }
+        //IReadOnlyCollection<IWebElement> nhsNumElem = GetElements(By.Id("keyDetailsNHSNumber"));
+        //if (nhsNumElem.Count == 0)
+        //{
+        //    flags.Add(PAGE_DIDNT_LOAD);
+        //    return flags;
+        //}
 
         IReadOnlyCollection<IWebElement> covidAtRiskIfCaughtList = GetElements(By.Name("covidAtRiskIfCaught"));
 
@@ -97,7 +95,7 @@ public class SCR
 
         if (flags.Count == 0) flags.Add(NONE);
 
-        // This may break as the name was guessed
+        
         GetElements(By.Id("BasicSearch")).First().Click();
 
         return flags;
@@ -105,7 +103,9 @@ public class SCR
 
     private IReadOnlyCollection<IWebElement> GetElements(By by, int sleepCumulator = 0)
     {
-        Thread.Sleep(400);
+
+        Thread.Sleep(200);
+
         IReadOnlyCollection<IWebElement> elems = driver.FindElements(by);
 
         if (elems.Count == 0)
@@ -119,8 +119,8 @@ public class SCR
             {
                 return elems;
             }
-            Thread.Sleep(1000);
-            return GetElements(by, sleepCumulator + 1000);
+            Thread.Sleep(500);
+            return GetElements(by, sleepCumulator + 500);
         }
 
         return elems;
