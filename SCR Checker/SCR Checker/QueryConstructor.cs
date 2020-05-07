@@ -56,7 +56,8 @@ JOIN dbo.PatientNote N ON V.PatientId = N.PatientId ";
             /// <summary>
             /// Filters results by a specific day
             /// </summary>
-            DATE
+            DATE,
+            BETWEEN_DATES
         }
 
         /// <summary>Creates an object to represent a string used for a query.</summary>
@@ -74,6 +75,7 @@ JOIN dbo.PatientNote N ON V.PatientId = N.PatientId ";
         {
             string dateString = day.ToString(DATE_FORMAT);
             RemoveCondition(Condition.DATE);
+            RemoveCondition(Condition.BETWEEN_DATES);
             AddCondition(Condition.DATE, dateString);
         }
 
@@ -96,6 +98,20 @@ JOIN dbo.PatientNote N ON V.PatientId = N.PatientId ";
             sort = "ORDER BY P.Surname";
         }
 
+        public void BetweenDays(DateTime fromDay, DateTime toDay)
+        {
+            string str = "";
+            for (DateTime day = fromDay; (toDay.Date - day.Date).Days >= 0; day = day.AddDays(1))
+            {
+                str = str + FILTER_DATE + "'" + day.ToString(DATE_FORMAT) + "' ";
+                if (toDay.Date != day.Date) str += "OR ";
+            }
+
+            RemoveCondition(Condition.DATE);
+            RemoveCondition(Condition.BETWEEN_DATES);
+            AddCondition(Condition.BETWEEN_DATES, str);
+        }
+
         /// <summary>
         /// Adds a condition to the list of conditions
         /// </summary>
@@ -116,6 +132,10 @@ JOIN dbo.PatientNote N ON V.PatientId = N.PatientId ";
                 {
                     case Condition.DATE:
                         str = FILTER_DATE + "'" + condition.Value + "'";
+                        break;
+
+                    case Condition.BETWEEN_DATES:
+                        str = condition.Value;
                         break;
                 }
                 conditionList.RemoveAt(0);

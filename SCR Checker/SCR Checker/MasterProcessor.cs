@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 public class MasterProcessor
@@ -17,9 +18,9 @@ public class MasterProcessor
 		scr = new SCR(driver);
 	}
 
-	public void Start(DateTime fromDate, DateTime toDate, ProgressBar progressBar)
+	public async void Start(DateTime fromDate, DateTime toDate, ProgressBar progressBar)
 	{
-		Dictionary<string, string> nhsNumPatientName = SQLQueryer.GetDeliveryNHSNumbers(fromDate, toDate);
+		Dictionary<string, string> nhsNumPatientName = await Task.Run(() => SQLQueryer.GetDeliveryNHSNumbers(fromDate, toDate));
 
 		progressBar.Minimum = 1;
 		progressBar.Maximum = nhsNumPatientName.Count;
@@ -33,26 +34,30 @@ public class MasterProcessor
 		int maxAttempts = 3;
 		IEnumerator<KeyValuePair<string, string>> e = nhsNumPatientName.GetEnumerator();
 		e.MoveNext();
+		
 		while (dontStop)
 		{
 			KeyValuePair<string, string> entry = e.Current;
 
 			List<string> flags = new List<string>();
-			try
+			await Task.Run(() =>
 			{
-				flags = scr.GetFlags(entry.Key);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-				attempt += 1;
-				if (attempt == maxAttempts)
+				try
 				{
-					flags.Add("ERROR - please look up manually");
-					attempt = 0;
+					flags = scr.GetFlags(entry.Key);
 				}
-				
-			}
+				catch (Exception ex)
+				{
+					Console.WriteLine(ex.Message);
+					attempt += 1;
+					if (attempt == maxAttempts)
+					{
+						flags.Add("ERROR - please look up manually");
+						attempt = 0;
+					}
+
+				}
+			});
 
 			if (flags.Count > 0)
 			{
@@ -76,6 +81,6 @@ public class MasterProcessor
 		scr.Close();
 		doc.Save();
 		doc.OpenFile();
-		
+
 	}
 }

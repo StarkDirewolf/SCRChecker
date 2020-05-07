@@ -22,31 +22,36 @@ namespace SCR_Checker
             {
                 connection.Open();
 
-                for (DateTime day = fromDay; (toDay.Date - day.Date).Days >= 0; day = day.AddDays(1))
+                if (fromDay.Date == toDay.Date)
                 {
-                    query.SpecificDay(day);
-                    query.SortBy();
-                    SqlCommand command = new SqlCommand(query.ToString(), connection);
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
+                    query.SpecificDay(fromDay);
+                } else
+                {
+                    query.BetweenDays(fromDay, toDay);
+                }
+                
+                query.SortBy();
+                SqlCommand command = new SqlCommand(query.ToString(), connection);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
 
-                        while (reader.Read())
+                    while (reader.Read())
+                    {
+                        // NHS number first
+                        // Patient first name second
+                        // Patient second name third
+                        // Patient notes fourth
+                        string nhsNum = reader[0].ToString();
+                        if (!nhsNumNameLookup.ContainsKey(nhsNum))
                         {
-                            // NHS number first
-                            // Patient first name second
-                            // Patient second name third
-                            // Patient notes fourth
-                            string nhsNum = reader[0].ToString();
-                            if (!nhsNumNameLookup.ContainsKey(nhsNum))
+                            if (reader[3].ToString().ToLower().Contains("deliver"))
                             {
-                                if (reader[3].ToString().ToLower().Contains("deliver"))
-                                {
-                                    nhsNumNameLookup.Add(nhsNum, reader[2] + ", " + reader[1]);
-                                }
+                                nhsNumNameLookup.Add(nhsNum, reader[2] + ", " + reader[1]);
                             }
                         }
                     }
                 }
+                
             }
 
             return nhsNumNameLookup;
