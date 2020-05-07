@@ -11,6 +11,8 @@ using System.Windows.Forms;
 public class MasterProcessor
 {
 	SCR scr;
+	bool toCancel = false;
+	SpreadsheetHandler doc;
 
 	public MasterProcessor()
 	{
@@ -27,7 +29,7 @@ public class MasterProcessor
 		progressBar.Value = 1;
 		progressBar.Step = 1;
 
-		SpreadsheetHandler doc = new SpreadsheetHandler();
+		doc = new SpreadsheetHandler();
 
 		bool dontStop = true;
 		int attempt = 0;
@@ -42,6 +44,11 @@ public class MasterProcessor
 			List<string> flags = new List<string>();
 			await Task.Run(() =>
 			{
+				if(toCancel)
+				{
+					return;
+				}
+
 				try
 				{
 					flags = scr.GetFlags(entry.Key);
@@ -79,8 +86,20 @@ public class MasterProcessor
 		}
 
 		scr.Close();
-		doc.Save();
-		doc.OpenFile();
+	}
 
+	public void Cancel()
+	{
+		toCancel = true;
+	}
+
+	public void Save()
+	{
+		doc.Save();
+	}
+
+	public void OpenFile()
+	{
+		doc.OpenFile();
 	}
 }

@@ -34,6 +34,8 @@
             this.toDateLabel = new System.Windows.Forms.Label();
             this.startButton = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.saveBtn = new System.Windows.Forms.Button();
+            this.openBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // fromDateTimePicker1
@@ -71,7 +73,7 @@
             // 
             // startButton
             // 
-            this.startButton.Location = new System.Drawing.Point(75, 87);
+            this.startButton.Location = new System.Drawing.Point(75, 99);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(75, 23);
             this.startButton.TabIndex = 4;
@@ -81,17 +83,41 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(64, 87);
+            this.progressBar1.Location = new System.Drawing.Point(64, 73);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(100, 23);
             this.progressBar1.TabIndex = 5;
             this.progressBar1.Visible = false;
+            // 
+            // saveBtn
+            // 
+            this.saveBtn.Location = new System.Drawing.Point(140, 99);
+            this.saveBtn.Name = "saveBtn";
+            this.saveBtn.Size = new System.Drawing.Size(75, 23);
+            this.saveBtn.TabIndex = 6;
+            this.saveBtn.Text = "Save";
+            this.saveBtn.UseVisualStyleBackColor = true;
+            this.saveBtn.Visible = false;
+            this.saveBtn.Click += new System.EventHandler(this.saveBtn_Click);
+            // 
+            // openBtn
+            // 
+            this.openBtn.Location = new System.Drawing.Point(27, 99);
+            this.openBtn.Name = "openBtn";
+            this.openBtn.Size = new System.Drawing.Size(75, 23);
+            this.openBtn.TabIndex = 7;
+            this.openBtn.Text = "Open";
+            this.openBtn.UseVisualStyleBackColor = true;
+            this.openBtn.Visible = false;
+            this.openBtn.Click += new System.EventHandler(this.openBtn_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(249, 131);
+            this.Controls.Add(this.openBtn);
+            this.Controls.Add(this.saveBtn);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.toDateLabel);
@@ -114,5 +140,7 @@
         private System.Windows.Forms.Label toDateLabel;
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Button saveBtn;
+        private System.Windows.Forms.Button openBtn;
     }
 }
