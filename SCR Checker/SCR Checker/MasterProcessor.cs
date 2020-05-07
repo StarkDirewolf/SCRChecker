@@ -73,7 +73,9 @@ public class MasterProcessor
 
 		}
 
+		scr.Close();
 		doc.Save();
 		doc.OpenFile();
+		
 	}
 }

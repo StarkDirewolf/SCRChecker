@@ -27,6 +27,7 @@ public class SCR
             newSearchButton.Click();
 
         }
+        driver.Manage().Window.Minimize();
     }
 
     // Will look up a patient from their NHS number and return all flags as a list of strings
@@ -124,5 +125,10 @@ public class SCR
         }
 
         return elems;
+    }
+
+    public void Close()
+    {
+        driver.Close();
     }
 }
