@@ -86,6 +86,8 @@ public class MasterProcessor
 		}
 
 		scr.Close();
+
+		Form1.ShowEndButtons();
 	}
 
 	public void Cancel()
@@ -93,7 +95,7 @@ public class MasterProcessor
 		toCancel = true;
 	}
 
-	public void Save()
+	public void SaveFile()
 	{
 		doc.Save();
 	}

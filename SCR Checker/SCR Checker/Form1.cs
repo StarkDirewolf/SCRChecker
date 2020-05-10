@@ -17,6 +17,7 @@ namespace SCR_Checker
     {
         bool isStart = true;
         MasterProcessor processor;
+        static Button staticButton;
 
         public Form1()
         {
@@ -30,7 +31,11 @@ namespace SCR_Checker
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            if (isStart)
+            if(String.Equals(staticButton.Text, "Open")) {
+                processor.SaveFile();
+                processor.OpenFile();
+            }
+            else if (isStart)
             {
                 isStart = false;
 
@@ -55,25 +60,12 @@ namespace SCR_Checker
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
-        }
-
-        private void openBtn_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void saveBtn_Click(object sender, EventArgs e)
-        {
-
+            staticButton = startButton;
         }
 
         public static void ShowEndButtons()
         {
-            Form1.saveBtn.Visible = true;
-            openBtn.Visible = true;
-            startBtn.Visible = false;
-            Form1.
+            staticButton.Text = "Open";
         }
 
     }
