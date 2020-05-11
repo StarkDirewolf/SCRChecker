@@ -65,12 +65,11 @@ public class SCR
     {
         List<string> flags = new List<string>();
 
-        //IReadOnlyCollection<IWebElement> nhsNumElem = GetElements(By.Id("keyDetailsNHSNumber"));
-        //if (nhsNumElem.Count == 0)
-        //{
-        //    flags.Add(PAGE_DIDNT_LOAD);
-        //    return flags;
-        //}
+        IReadOnlyCollection<IWebElement> nhsNumElem = GetElements(By.Id("keyDetailsNHSNumber"));
+        if (nhsNumElem.Count == 0 || !String.Equals(nhsNumElem.First().Text.Replace(" ", ""), nhsNum))
+        {
+            throw new Exception("Page didn't load");
+        }
 
         IReadOnlyCollection<IWebElement> covidAtRiskIfCaughtList = GetElements(By.Name("covidAtRiskIfCaught"));
 
