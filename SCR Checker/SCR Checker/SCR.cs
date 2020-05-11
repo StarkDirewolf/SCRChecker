@@ -34,7 +34,12 @@ public class SCR
     public List<string> GetFlags(string nhsNumber)
     {
         SearchNHS(nhsNumber);
-        return CheckFlags(nhsNumber);
+        if (!checkNHS(nhsNumber))
+        {
+            throw new Exception("Error on page");
+        }
+
+        return CheckFlags();
     }
 
     // From the main page, this will access a specific patient's records
@@ -60,16 +65,39 @@ public class SCR
         nhsNumberField.First().Submit();
     }
 
+    private bool checkNHS(string nhsNum, int timeoutAccumulator = 0)
+    {
+        IReadOnlyCollection<IWebElement> nhsNumElem = GetElements(By.Id("keyDetailsNHSNumber"));
+
+        if (nhsNumElem.Count == 0)
+        {
+            
+            if (timeoutAccumulator > 5000)
+            {
+                return false;
+
+            } else
+            {
+                Thread.Sleep(500);
+                return checkNHS(nhsNum, timeoutAccumulator + 500);
+            }
+            
+        }
+        else if (String.Equals(nhsNumElem.First().Text.Replace(" ", ""), nhsNum))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
+    }
+
     // Once on the patient's records, this will return a list of strings as to what flags they have active
-    private List<string> CheckFlags(string nhsNum)
+    private List<string> CheckFlags()
     {
         List<string> flags = new List<string>();
-
-        IReadOnlyCollection<IWebElement> nhsNumElem = GetElements(By.Id("keyDetailsNHSNumber"));
-        if (nhsNumElem.Count == 0 || !String.Equals(nhsNumElem.First().Text.Replace(" ", ""), nhsNum))
-        {
-            throw new Exception("Page didn't load");
-        }
 
         IReadOnlyCollection<IWebElement> covidAtRiskIfCaughtList = GetElements(By.Name("covidAtRiskIfCaught"));
 

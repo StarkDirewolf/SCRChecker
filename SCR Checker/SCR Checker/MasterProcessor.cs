@@ -87,6 +87,8 @@ public class MasterProcessor
 
 		scr.Close();
 
+		SaveFile();
+
 		Form1.ShowEndButtons();
 	}
 

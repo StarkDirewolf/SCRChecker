@@ -32,7 +32,6 @@ namespace SCR_Checker
         private void startButton_Click(object sender, EventArgs e)
         {
             if(String.Equals(staticButton.Text, "Open")) {
-                processor.SaveFile();
                 processor.OpenFile();
             }
             else if (isStart)
