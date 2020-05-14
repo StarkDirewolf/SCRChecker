@@ -34,6 +34,7 @@
             this.toDateLabel = new System.Windows.Forms.Label();
             this.startButton = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.nomadCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // fromDateTimePicker1
@@ -71,7 +72,7 @@
             // 
             // startButton
             // 
-            this.startButton.Location = new System.Drawing.Point(75, 99);
+            this.startButton.Location = new System.Drawing.Point(140, 99);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(75, 23);
             this.startButton.TabIndex = 4;
@@ -87,11 +88,22 @@
             this.progressBar1.TabIndex = 5;
             this.progressBar1.Visible = false;
             // 
+            // nomadCheckBox
+            // 
+            this.nomadCheckBox.AutoSize = true;
+            this.nomadCheckBox.Location = new System.Drawing.Point(15, 103);
+            this.nomadCheckBox.Name = "nomadCheckBox";
+            this.nomadCheckBox.Size = new System.Drawing.Size(125, 17);
+            this.nomadCheckBox.TabIndex = 6;
+            this.nomadCheckBox.Text = "Nomad Patients Only";
+            this.nomadCheckBox.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(249, 131);
+            this.Controls.Add(this.nomadCheckBox);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.toDateLabel);
@@ -114,5 +126,6 @@
         private System.Windows.Forms.Label toDateLabel;
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.CheckBox nomadCheckBox;
     }
 }

@@ -43,7 +43,7 @@ namespace SCR_Checker
 
                 processor = new MasterProcessor();
 
-                processor.Start(fromDateTimePicker1.Value, toDateTimePicker2.Value, progressBar1);
+                processor.Start(fromDateTimePicker1.Value, toDateTimePicker2.Value, progressBar1, nomadCheckBox.Checked);
             } else
             {
                 isStart = true;

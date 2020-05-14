@@ -20,9 +20,9 @@ public class MasterProcessor
 		scr = new SCR(driver);
 	}
 
-	public async void Start(DateTime fromDate, DateTime toDate, ProgressBar progressBar)
+	public async void Start(DateTime fromDate, DateTime toDate, ProgressBar progressBar, bool onlyNomads)
 	{
-		Dictionary<string, string> nhsNumPatientName = await Task.Run(() => SQLQueryer.GetDeliveryNHSNumbers(fromDate, toDate));
+		Dictionary<string, string> nhsNumPatientName = await Task.Run(() => SQLQueryer.GetDeliveryNHSNumbers(fromDate, toDate, onlyNomads));
 
 		progressBar.Minimum = 1;
 		progressBar.Maximum = nhsNumPatientName.Count;
