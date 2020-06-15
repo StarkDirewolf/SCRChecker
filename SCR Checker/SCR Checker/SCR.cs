@@ -48,18 +48,10 @@ public class SCR
         IReadOnlyCollection<IWebElement> nhsNumberField = GetElements(By.Name("nhsNumber"));
         if(nhsNumberField.Count == 0)
         {
-            IReadOnlyCollection<IWebElement> okButton = GetElements(By.Name("covidModalOk"));
-            if (okButton.Count > 0)
-            {
-                okButton.First().Click();
-            }
-            IReadOnlyCollection<IWebElement> searchButton = GetElements(By.Id("BasicSearch"));
-            if (searchButton.Count > 0)
-            {
-                searchButton.First().Click();
-            }
-            nhsNumberField = GetElements(By.Name("nhsNumber"));
+            driver.Navigate().GoToUrl("https://portal2.national.ncrs.nhs.uk/summarycarerecord/patientsearch");
         }
+        nhsNumberField = GetElements(By.Name("nhsNumber"));
+
         nhsNumberField.First().Clear();
         nhsNumberField.First().SendKeys(number);
         nhsNumberField.First().Submit();

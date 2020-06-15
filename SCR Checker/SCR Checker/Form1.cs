@@ -49,7 +49,7 @@ namespace SCR_Checker
                 isStart = true;
 
                 startButton.Text = "Start";
-                progressBar1.Value = 0;
+                progressBar1.Value = progressBar1.Minimum;
                 progressBar1.Visible = false;
 
                 processor.Cancel();
