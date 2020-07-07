@@ -44,21 +44,29 @@ namespace SCR_Checker
                         string nhsNum = reader[0].ToString();
                         if (!nhsNumNameLookup.ContainsKey(nhsNum))
                         {
-                            if (reader[3].ToString().ToLower().Contains("deliver"))
+                            if (reader[4].ToString().Equals("1"))
                             {
-                                if (onlyNomads)
+                                nhsNumNameLookup.Add(nhsNum, reader[2] + ", " + reader[1]);
+                            } else
+                            {
+                                if (reader[3].ToString().ToLower().Contains("deliver"))
                                 {
-                                    if (reader[3].ToString().ToLower().Contains("nomad") || reader[3].ToString().ToLower().Contains("dosset")
-                                        || reader[3].ToString().ToLower().Contains("doset"))
+                                    if (onlyNomads)
+                                    {
+                                        if (reader[3].ToString().ToLower().Contains("nomad") || reader[3].ToString().ToLower().Contains("dosset")
+                                            || reader[3].ToString().ToLower().Contains("doset"))
+                                        {
+                                            nhsNumNameLookup.Add(nhsNum, reader[2] + ", " + reader[1]);
+                                        }
+                                    }
+                                    else
                                     {
                                         nhsNumNameLookup.Add(nhsNum, reader[2] + ", " + reader[1]);
                                     }
-                                } else
-                                {
-                                    nhsNumNameLookup.Add(nhsNum, reader[2] + ", " + reader[1]);
+
                                 }
-                                
                             }
+                            
                         }
                     }
                 }
