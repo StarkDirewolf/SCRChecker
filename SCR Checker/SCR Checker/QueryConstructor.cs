@@ -27,7 +27,7 @@ SELECT P.NhsNumber, P.GivenName, P.Surname, N.Note, X.PatientPropertyId
 FROM PMR.PrescriptionCollectionSummaryView V 
 JOIN dbo.PatientLiteView P ON V.PatientId = P.PatientId 
 JOIN dbo.PatientNote N ON V.PatientId = N.PatientId
-JOIN dbo.PatientPatientProperty X ON X.PatientId = V.PatientId ";
+LEFT JOIN dbo.PatientPatientProperty X ON X.PatientId = V.PatientId ";
 
         private const string FILTER = " WHERE ";
 
